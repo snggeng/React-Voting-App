@@ -1,31 +1,57 @@
-import {expect} from 'chai';
-import {List} from 'immutable';
+import {expect} from 'chai'
+import {List} from 'immutable'
 
 describe('immutability', () => {
-
   // ...
 
+  // list
   describe('A List', () => {
-
-    function addMovie(currentState, movie) {
-      return currentState.push(movie);
+    function addMovie (currentState, movie) {
+      return currentState.push(movie)
     }
 
     it('is immutable', () => {
-      let state = List.of('Trainspotting', '28 Days Later');
-      let nextState = addMovie(state, 'Sunshine');
+      let state = List.of('Trainspotting', '28 Days Later')
+      let nextState = addMovie(state, 'Sunshine')
 
       expect(nextState).to.equal(List.of(
         'Trainspotting',
         '28 Days Later',
         'Sunshine'
-      ));
+      ))
       expect(state).to.equal(List.of(
         'Trainspotting',
         '28 Days Later'
-      ));
-    });
+      ))
+    })
+  })
 
-  });
+  // tree
+  describe('a tree', () => {
+    // uses update() helper function from Immutable API
+    function addMovie (currentState, movie) {
+      return currentState.update('movies', movies => movies.push(movie))
+    }
 
-});
+    it('is immutable', () => {
+      let state = Map({
+        movies: List.of('Trainspotting', '28 Days Later')
+      })
+      let nextState = addMovie(state, 'Sunshine')
+
+      expect(nextState).to.equal(Map({
+        movies: List.of(
+          'Trainspotting',
+          '28 Days Later',
+          'Sunshine'
+        )
+      }))
+      expect(state).to.equal(Map({
+        movies: List.of(
+          'Trainspotting',
+          '28 Days Later'
+        )
+      }))
+    })
+  })
+})
