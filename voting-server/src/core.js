@@ -1,6 +1,6 @@
-import {List} from 'immutable'
+import {List, Map} from 'immutable'
 
-export const INITIAL_STATE = new Map()
+export const INITIAL_STATE = Map()
 
 export function setEntries (state, entries) {
   return state.set('entries', List(entries))
@@ -15,7 +15,7 @@ export function next (state) {
                  .set('winner', entries.first())
   } else {
     return state.merge({
-      vote: new Map({pair: entries.take(2)}),
+      vote: Map({pair: entries.take(2)}),
       entries: entries.skip(2)
     })
   }
